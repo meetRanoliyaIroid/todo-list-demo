@@ -117,5 +117,32 @@ describe("Todo API Endpoints", () => {
       expect(response.body.success).toBe(false);
     });
   });
+
+  describe("DELETE /api/todos/:id", () => {
+    it("should delete a todo", async () => {
+      const todo = await Todo.create({ text: "Test todo", completed: false });
+
+      const response = await request(app)
+        .delete(`/api/todos/${todo.id}`)
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+      expect(response.body.message).toContain("deleted successfully");
+      expect(response.body.data).toBeNull();
+
+      // Verify todo is actually deleted
+      const deletedTodo = await Todo.findByPk(todo.id);
+      expect(deletedTodo).toBeNull();
+    });
+
+    it("should return 404 if todo not found", async () => {
+      const response = await request(app)
+        .delete("/api/todos/99999")
+        .expect(404);
+
+      expect(response.body.success).toBe(false);
+      expect(response.body.message).toContain("not found");
+    });
+  });
 });
 

@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/", asyncWrapper(TodoController.getAllTodos));
 router.post("/", validator.body(createTodoSchema), asyncWrapper(TodoController.createTodo));
 router.put("/:id", validator.body(updateTodoSchema), asyncWrapper(TodoController.updateTodo));
+router.delete("/:id", asyncWrapper(TodoController.deleteTodo));
 
 export default router;
 

@@ -158,6 +158,49 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+    delete:
+      summary: Delete a todo
+      description: Delete a todo item by its ID
+      tags:
+        - Todos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the todo item to delete
+          example: 1
+      responses:
+        "200":
+          description: Todo deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Todo deleted successfully"
+                  data:
+                    type: "null"
+                    example: null
+        "404":
+          description: Todo not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     Todo:

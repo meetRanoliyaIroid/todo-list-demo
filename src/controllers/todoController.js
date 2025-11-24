@@ -78,6 +78,34 @@ class TodoController {
       });
     }
   }
+
+  static async deleteTodo(req, res) {
+    try {
+      const { id } = req.params;
+
+      const todo = await Todo.findByPk(id);
+
+      if (!todo) {
+        return res.status(404).json({
+          success: false,
+          message: "Todo not found",
+        });
+      }
+
+      await todo.destroy();
+
+      return res.status(200).json({
+        success: true,
+        message: "Todo deleted successfully",
+        data: null,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message || "Failed to delete todo",
+      });
+    }
+  }
 }
 
 export default TodoController;
